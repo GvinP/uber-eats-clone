@@ -4,8 +4,15 @@ import HeaderButton from "./HeaderButton";
 
 export type TabType = "Delivery" | "Pickup";
 
-export default function HeaderTabs() {
-  const [activeTab, setActiveTab] = useState<TabType>("Delivery");
+type HeaderTabsPropsType = {
+  activeTab: TabType;
+  setActiveTab: (activeTab: TabType) => void;
+};
+
+export default function HeaderTabs({
+  activeTab,
+  setActiveTab,
+}: HeaderTabsPropsType) {
   return (
     <View style={styles.container}>
       <HeaderButton
