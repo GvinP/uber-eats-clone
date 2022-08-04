@@ -1,0 +1,34 @@
+import { View, Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
+import React from "react";
+import HeaderTabs from "../components/HeaderTabs";
+import { StatusBar } from "expo-status-bar";
+import SearchBar from "../components/SearchBar";
+import Categories from "../components/Categories";
+import RestaurantItem from "../components/RestaurantItem";
+
+export default function Home() {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <HeaderTabs />
+        <SearchBar />
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Categories />
+        <RestaurantItem />
+      </ScrollView>
+      <StatusBar style="auto" />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#eee",
+  },
+  header: {
+    backgroundColor: "white",
+    padding: 15,
+  },
+});
