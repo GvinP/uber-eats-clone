@@ -9,7 +9,7 @@ export const localRestaurants: Array<RestaurantType> = [
       "https://static.onecms.io/wp-content/uploads/sites/9/2020/04/24/ppp-why-wont-anyone-rescue-restaurants-FT-BLOG0420.jpg",
     categories: ["Cafe", "Bar"],
     price: "$$",
-    reviews: 1244,
+    review_count: 1244,
     rating: 4.5,
   },
   {
@@ -18,7 +18,7 @@ export const localRestaurants: Array<RestaurantType> = [
       "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cmVzdGF1cmFudCUyMGludGVyaW9yfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80",
     categories: ["Cafe", "Bar"],
     price: "$$",
-    reviews: 1244,
+    review_count: 1244,
     rating: 3.7,
   },
   {
@@ -27,7 +27,7 @@ export const localRestaurants: Array<RestaurantType> = [
       "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cmVzdGF1cmFudCUyMGludGVyaW9yfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80",
     categories: ["Indian", "Bar"],
     price: "$$",
-    reviews: 700,
+    review_count: 700,
     rating: 4.9,
   },
 ];
@@ -37,24 +37,38 @@ export type RestaurantType = {
   image_url: string;
   categories: string[];
   price: "$$";
-  reviews: number;
+  review_count: number;
   rating: number;
 };
 
 export type RestaurantItemsType = {
   restuarantData: RestaurantType[];
+  navigation: any;
 };
 
-export default function RestaurantItems({restuarantData}: RestaurantItemsType) {
+export default function RestaurantItems({
+  navigation,
+  restuarantData,
+}: RestaurantItemsType) {
   return (
-    <TouchableOpacity activeOpacity={1} style={{ marginBottom: 30 }}>
-      {restuarantData && restuarantData.map((item, index) => (
-        <View style={styles.restaurantItem} key={index}>
-          <RestaurantImage imageUrl={item.image_url} />
-          <RestaurantInfo title={item.name} rating={item.rating} />
-        </View>
-      ))}
-    </TouchableOpacity>
+    <>
+      {restuarantData &&
+        restuarantData.map((restuarant, index) => (
+          <TouchableOpacity activeOpacity={1} style={{ marginBottom: 30 }} onPress={()=>navigation.navigate("RestaurantDetails", {
+            name: restuarant.name,
+            image: restuarant.image_url,
+            price: restuarant.price,
+            reviwes: restuarant.review_count,
+            rating: restuarant.rating,
+            categories: restuarant.categories
+          })} key={index}>
+            <View style={styles.restaurantItem}>
+              <RestaurantImage imageUrl={restuarant.image_url} />
+              <RestaurantInfo title={restuarant.name} rating={restuarant.rating} />
+            </View>
+          </TouchableOpacity>
+        ))}
+    </>
   );
 }
 
@@ -66,7 +80,7 @@ const RestaurantImage = ({ imageUrl }: RestaurantImagePropsType) => (
   <>
     <Image
       source={{
-        uri: imageUrl || 'https://via.placeholder.com/140x100',
+        uri: imageUrl || "https://via.placeholder.com/140x100",
       }}
       style={styles.image}
     />
@@ -85,7 +99,7 @@ const RestaurantInfo = ({ title, rating }: RestaurantInfoPropsType) => (
   <View style={styles.restaurantInfo}>
     <View>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.deliveryTime}>35-45 min</Text>
+      <Text style={styles.deliveryTime}>35-45 &#183; min</Text>
     </View>
     <View style={styles.rating}>
       <Text>{rating}</Text>

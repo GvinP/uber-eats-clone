@@ -1,16 +1,19 @@
-import { View, Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import HeaderTabs, { TabType } from "../components/HeaderTabs";
+import HeaderTabs, { TabType } from "../components/home/HeaderTabs";
 import { StatusBar } from "expo-status-bar";
-import SearchBar from "../components/SearchBar";
-import Categories from "../components/Categories";
+import SearchBar from "../components/home/SearchBar";
+import Categories from "../components/home/Categories";
 import RestaurantItems, {
   RestaurantType,
   localRestaurants,
-} from "../components/RestaurantItems";
+} from "../components/home/RestaurantItems";
 import { YELP_API_KEY } from "@env";
+import BottomTabs from "../components/home/BottomTabs";
+import { Divider } from "react-native-elements/dist/divider/Divider";
+import SafeAreaView from "react-native-safe-area-view";
 
-export default function Home() {
+export default function Home({navigation}:any) {
   const [restuarantData, setRestuarantData] =
     useState<Array<RestaurantType>>(localRestaurants);
   const [city, setCity] = useState<string>("");
@@ -28,7 +31,13 @@ export default function Home() {
     };
     return fetch(yelpUrl, apiOptions)
       .then((res) => res.json())
-      .then((json) => setRestuarantData(json.businesses.filter((business:any) =>business.transactions.includes(activeTab.toLowerCase()))));
+      .then((json) =>
+        setRestuarantData(
+          json.businesses.filter((business: any) =>
+            business.transactions.includes(activeTab.toLowerCase())
+          )
+        )
+      );
   };
 
   useEffect(() => {
@@ -38,14 +47,16 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab}/>
+        <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <SearchBar city={city} setCity={setCity} />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Categories />
         {/* <Text>{JSON.stringify(restuarantData)}</Text> */}
-        <RestaurantItems restuarantData={restuarantData} />
+        <RestaurantItems restuarantData={restuarantData} navigation={navigation} />
       </ScrollView>
+      <Divider width={1}/>
+      <BottomTabs />
       <StatusBar style="auto" />
     </SafeAreaView>
   );
