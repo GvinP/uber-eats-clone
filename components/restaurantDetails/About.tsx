@@ -10,17 +10,18 @@ const yelpRestaurantInfo = {
   categories: [{ title: "Georgian" }, { title: "Comfort Food" }],
 };
 
-const { name, image, price, rating, categories, reviwes } = yelpRestaurantInfo;
+// const { name, image, price, rating, categories, reviwes } = yelpRestaurantInfo;
 // const formattedCategories = categories.map((cat) => cat.title).join(" \u00B7 ");
 // const description = `${formattedCategories} \u00B7 ${price} \u00B7 🎫 \u00B7 ${rating} ⭐ (${reviwes})`;
 
 export default function About({ route }: any) {
-  const formattedCategories = route.params.categories.map((cat:any) => cat.title).join(" \u00B7 ");
-  const description = `${formattedCategories} \u00B7 ${route.params.price} \u00B7 🎫 \u00B7 ${route.params.rating} ⭐ (${route.params.reviwes})`;
+  const { name, image, price, rating, categories, reviwes } = route.params;
+  const formattedCategories = categories.map((cat:any) => cat.title).join(" \u00B7 ");
+  const description = `${formattedCategories} \u00B7 ${price} \u00B7 🎫 \u00B7 ${rating} ⭐ (${reviwes})`;
   return (
     <View>
-      <Image source={{ uri: route.params.image }} style={styles.image} />
-      <Text style={styles.title}>{route.params.name}</Text>
+      <Image source={{ uri: image }} style={styles.image} />
+      <Text style={styles.title}>{name}</Text>
       <Text style={styles.description}>{description}</Text>
     </View>
   );
