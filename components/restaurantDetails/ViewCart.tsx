@@ -1,10 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import React, { useState } from "react";
 import { useAppSelector } from "../../redux/store";
-import { Divider } from "react-native-elements";
+import firebase from "../../firebase";
 import OrderItem from "./OrderItem";
+import { useNavigation } from "@react-navigation/native";
+import { useAppNavigation } from "../../screens/Types";
 
-export default function ViewCart({ navigation }: any) {
+export default function ViewCart() {
+  const navigation = useAppNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const { items, restaurantName } = useAppSelector(
     (state) => state.cart.selectedItems
@@ -19,6 +22,17 @@ export default function ViewCart({ navigation }: any) {
     currency: "USD",
   });
 
+  const addOrderToFirebase = () => {
+    const db = firebase.firestore();
+    db.collection("orders").add({
+      item: items,
+      restaurantName: restaurantName,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    setModalVisible(false);
+    navigation.navigate("OrderComplited");
+  };
+
   const checkoutModalContent = () => (
     <View style={styles.modalContainer}>
       <View style={styles.modalCheckoutContainer}>
@@ -32,7 +46,7 @@ export default function ViewCart({ navigation }: any) {
         </View>
         <View style={styles.modalCheckoutButtonContainer}>
           <TouchableOpacity
-            onPress={() => setModalVisible(false)}
+            onPress={addOrderToFirebase}
             style={styles.modalCheckoutButton}
           >
             <Text style={{ color: "white", fontSize: 20 }}>Checkout</Text>

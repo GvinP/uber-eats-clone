@@ -54,17 +54,27 @@ export default function RestaurantItems({
     <>
       {restuarantData &&
         restuarantData.map((restuarant, index) => (
-          <TouchableOpacity activeOpacity={1} style={{ marginBottom: 30 }} onPress={()=>navigation.navigate("RestaurantDetails", {
-            name: restuarant.name,
-            image: restuarant.image_url,
-            price: restuarant.price,
-            reviwes: restuarant.review_count,
-            rating: restuarant.rating,
-            categories: restuarant.categories
-          })} key={index}>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={{ marginBottom: 30 }}
+            onPress={() =>
+              navigation.navigate("RestaurantDetails", {
+                name: restuarant.name,
+                image: restuarant.image_url,
+                price: restuarant.price,
+                reviwes: restuarant.review_count,
+                rating: restuarant.rating,
+                categories: restuarant.categories,
+              })
+            }
+            key={index}
+          >
             <View style={styles.restaurantItem}>
               <RestaurantImage imageUrl={restuarant.image_url} />
-              <RestaurantInfo title={restuarant.name} rating={restuarant.rating} />
+              <RestaurantInfo
+                title={restuarant.name}
+                rating={restuarant.rating}
+              />
             </View>
           </TouchableOpacity>
         ))}

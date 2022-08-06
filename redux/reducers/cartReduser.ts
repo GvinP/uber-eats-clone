@@ -8,6 +8,8 @@ const InitialState = {
 export type ItemType = {
   title: string;
   price: string;
+  description: string;
+  image: string;
 };
 
 type InitialStateType = typeof InitialState;
