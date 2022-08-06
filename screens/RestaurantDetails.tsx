@@ -5,14 +5,13 @@ import { Divider } from "react-native-elements/dist/divider/Divider";
 import MenuItems from "../components/restaurantDetails/MenuItems";
 import ViewCart from "../components/restaurantDetails/ViewCart";
 
-export default function RestaurantDetails({route, navigation}: any) {
+export default function RestaurantDetails({ route, navigation }: any) {
   return (
-    <View>
-      <About route={route}/>
+    <View style={{ position: "relative" }}>
+      <About route={route} />
       <Divider width={1.8} style={styles.divider} />
-      <MenuItems />
-      <ViewCart navigation={navigation} restaurantName={route.params.name}/>
-      
+      <MenuItems restaurantName={route.params.name} />
+      <ViewCart navigation={navigation}/>
     </View>
   );
 }

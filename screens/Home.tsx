@@ -52,7 +52,6 @@ export default function Home({navigation}:any) {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Categories />
-        {/* <Text>{JSON.stringify(restuarantData)}</Text> */}
         <RestaurantItems restuarantData={restuarantData} navigation={navigation} />
       </ScrollView>
       <Divider width={1}/>

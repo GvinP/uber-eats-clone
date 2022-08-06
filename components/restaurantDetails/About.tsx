@@ -1,22 +1,11 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 import React from "react";
 
-const yelpRestaurantInfo = {
-  name: "Traditional Georgian Cuisine",
-  image: "https://winesgeorgia.com/wp-content/uploads/2020/07/Foods1.jpeg",
-  price: "$$",
-  reviwes: "1500",
-  rating: 4.5,
-  categories: [{ title: "Georgian" }, { title: "Comfort Food" }],
-};
-
-// const { name, image, price, rating, categories, reviwes } = yelpRestaurantInfo;
-// const formattedCategories = categories.map((cat) => cat.title).join(" \u00B7 ");
-// const description = `${formattedCategories} \u00B7 ${price} \u00B7 🎫 \u00B7 ${rating} ⭐ (${reviwes})`;
-
 export default function About({ route }: any) {
   const { name, image, price, rating, categories, reviwes } = route.params;
-  const formattedCategories = categories.map((cat:any) => cat.title).join(" \u00B7 ");
+  const formattedCategories = categories
+    .map((cat: any) => cat.title)
+    .join(" \u00B7 ");
   const description = `${formattedCategories} \u00B7 ${price} \u00B7 🎫 \u00B7 ${rating} ⭐ (${reviwes})`;
   return (
     <View>
