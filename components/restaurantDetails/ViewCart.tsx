@@ -1,17 +1,30 @@
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../redux/store";
 import firebase from "../../firebase";
 import OrderItem from "./OrderItem";
-import { useNavigation } from "@react-navigation/native";
 import { useAppNavigation } from "../../screens/Types";
+import LottieView from "lottie-react-native";
 
 export default function ViewCart() {
   const navigation = useAppNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const animation = useRef<LottieView | null>(null);
   const { items, restaurantName } = useAppSelector(
     (state) => state.cart.selectedItems
   );
+
+  useEffect(() => {
+    return () => {
+      setLoading(false);
+      animation.current?.reset();
+    };
+  }, []);
+  useEffect(() => {
+    animation.current?.play();
+    // return ()=>setLoading(false)
+  }, [loading]);
   const total = items.reduce(
     (acc, item) => acc + +item.price.replace("$", ""),
     0
@@ -81,12 +94,31 @@ export default function ViewCart() {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.viewCartButton}
-              onPress={() => setModalVisible(true)}
+              onPress={() => {
+                setLoading(true);
+                // animation.current?.play();
+                setTimeout(() => {
+                  setModalVisible(true);
+                  setLoading(false);
+                }, 2000);
+              }}
             >
               <Text style={styles.buttonText}>View Cart</Text>
               <Text style={{ color: "white", fontSize: 20 }}>{totalUsd}</Text>
             </TouchableOpacity>
           </View>
+        </View>
+      )}
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <LottieView
+            ref={animation}
+            source={require("../../assets/animations/scanner.json")}
+            style={styles.loading}
+            // autoPlay
+            speed={3}
+            loop
+          />
         </View>
       )}
     </>
@@ -163,5 +195,24 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     marginRight: 30,
+  },
+  loadingContainer: {
+    // flex: 1,
+    position: "absolute",
+    backgroundColor: "black",
+    opacity: 0.6,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+  },
+  loading: {
+    position: "absolute",
+    height: 200,
+    alignSelf: 'center',
+    // opacity: 0.8,
+    // backgroundColor: "transparent",
+    // left: 40,
+    top: 80,
   },
 });
